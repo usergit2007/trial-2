@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Great FinSpire Pvt Ltd</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 5%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* LOGO */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+
+    .logo-text h3 {
+      color: palevioletred;
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+
+    .logo-text small {
+      font-size: 0.75rem;
+      color: #333;
+    }
+
+    /* NAVIGATION MENU */
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #000;
+      margin: 0 12px;
+      font-weight: 500;
+      display: block;
+      padding: 8px;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #22b573;
+    }
+
+    /* DROPDOWN MENU */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 40px;
+      left: 0;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      min-width: 230px;
+      z-index: 5;
+    }
+
+    .dropdown a {
+      padding: 10px 15px;
+      display: block;
+      color: #000;
+    }
+
+    .dropdown a:hover {
+      background: #f4f4f4;
+      color: #22b573;
+    }
+
+    nav ul li:hover .dropdown {
+      display: block;
+    }
+
+    /* LOGIN BUTTON */
+    .login-btn {
+      background-color: #22b573;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    /* HAMBURGER ICON */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    /* ---------- MOBILE VIEW ---------- */
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: white;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        width: 100%;
+      }
+
+      nav ul li a {
+        margin: 10px 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      nav ul li:hover .dropdown {
+        display: none;
+      }
+    }
+
+    /* SLIDER */
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      margin-top: 80px;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      color: #fff;
+      text-align: left;
+      padding-left: 10%;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide h1 {
+      font-size: 2.6em;
+      font-weight: 700;
+      max-width: 600px;
+    }
+
+    .slide h1 span {
+      color: #22b573;
+    }
+
+    .slide p {
+      max-width: 600px;
+      font-size: 1.1em;
+      margin: 15px 0 25px;
+      line-height: 1.5;
+    }
+
+    .slide button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 10px 25px;
+      font-size: 1em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* ARROWS */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      transition: 0.3s;
+    }
+
+    .arrow:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .arrow.left { left: 30px; }
+    .arrow.right { right: 30px; }
+
+    /* WELCOME SECTION */
+    .welcome {
+      background: #fff;
+      padding: 60px 8% 40px; /* reduced bottom padding */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .welcome-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+    }
+
+    .welcome-content .text {
+      flex: 1 1 500px;
+    }
+
+    .welcome-content .text h2 {
+      font-size: 2rem;
+      color: #003366;
+      margin-bottom: 15px;
+    }
+
+    .welcome-content .text h2 span {
+      color: #22b573;
+    }
+
+    .welcome-content .text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .welcome-content .text button {
+      background: #22b573;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .welcome-content .text button:hover {
+      background: #1a965d;
+    }
+
+    .welcome-content .image img {
+      width: 280px;
+      height: auto;
+    }
+
+    @media (max-width: 900px) {
+      .welcome-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .welcome-content .image img {
+        margin-top: 20px;
+      }
+    }
+
+    /* OUR SERVICES SECTION */
+    .services {
+      background: #fff;
+      padding: 40px 8% 80px; /* reduced top padding */
+      text-align: center;
+    }
+
+    .services h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #003366;
+      margin-bottom: 40px;
+    }
+
+    .services h2 span {
+      color: #22b573;
+    }
+
+    .service-boxes {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .service {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .service img {
+      width: 100%;
+      height: 180px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .service h3 {
+      font-size: 1.1rem;
+      margin: 15px 0 10px;
+      color: #003366;
+    }
+
+    .service p {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .service button {
+      background: #003366;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .service button:hover {
+      background: #22b573;
+    }
+
+    @media (max-width: 900px) {
+      .service-boxes {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .service {
+        width: 90%;
+      }
+    }
+
+    /* ===== LATEST BLOG SECTION ===== */
+.latest-blog {
+  background: #eafff6;
+  padding: 70px 8%;
+}
+
+.latest-blog .title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.latest-blog .title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #003366;
+}
+
+.latest-blog .title h2 span {
+  color: #22b573;
+}
+
+/* GRID FIXED SPACING */
+.blog-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.blog-card {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+}
+
+.blog-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.blog-content {
+  padding: 22px;
+  border-top: 4px solid #003366;
+}
+
+.blog-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.blog-content p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.blog-content a {
+  display: inline-block;
+  background: #22b573;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.blog-content a:hover {
+  background: #1a965d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .blog-cards {
+    grid-template-columns: 1fr;
+  }
+}
+/* ===== OUR PARTNERS SECTION ===== */
+.partners {
+  padding: 70px 8%;
+  background: #ffffff;
+  text-align: center;
+}
+
+.partners h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.partners h2 span {
+  color: #2dbf8a;
+}
+
+.partners .underline {
+  width: 60px;
+  height: 3px;
+  background: #0b2c6d;
+  margin: 10px auto 40px;
+}
+
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+}
+
+.partner-card {
+  height: 110px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-card img {
+  max-width: 80%;
+  max-height: 60px;
+  object-fit: contain;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .partner-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .partner-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* ================= FOOTER ================= */
+
+.footer {
+  position: relative;
+  background: #0b1f2a;
+  color: #ffffff;
+  padding: 60px 20px 30px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* DOTTED WORLD BACKGROUND */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(11,31,42,0.92), rgba(11,31,42,0.92)),
+    url("world-dots.png"); /* dotted world map image */
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Keep footer content above background */
+.footer * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Grid layout */
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+/* Columns */
+.footer-col h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.footer-col p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+/* Links */
+.footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #00c389;
+}
+
+/* Lists with dotted lines */
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer ul li {
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.3);
+}
+
+.footer ul li:last-child {
+  border-bottom: none;
+}
+
+/* App buttons */
+.footer-apps {
+  margin: 40px auto;
+  text-align: center;
+}
+
+.footer-apps img {
+  height: 45px;
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+/* AMFI section */
+.footer-amfi {
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.footer-amfi img {
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+/* Divider */
+.footer-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  margin: 30px 0;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.footer-bottom a {
+  color: #00c389;
+}
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00c389;
+  color: #000;
+  padding: 10px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="GFS Logo.png" alt="logo">
+      <div class="logo-text">
+        <h3>Great FinSpire Pvt Ltd</h3>
+        <small>AMFI Registered Mutual Fund Distributor</small>
+      </div>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li>
+          <a href="#">Services ▾</a>
+          <div class="dropdown">
+            <a href="#">Mutual Fund</a>
+            <a href="#">PMS</a>
+            <a href="#">AIF</a>
+            <a href="#">Life Insurance</a>
+            <a href="#">Health Insurance</a>
+            <a href="#">Loan Services</a>
+          </div>
+        </li>
+        <li>
+          <a href="#">MF Research ▾</a>
+          <div class="dropdown">
+            <a href="#">Mutual Fund Trailing Returns</a>
+            <a href="#">Top Consistent Mutual Fund</a>
+            <a href="#">Mutual Fund Annual Returns</a>
+            <a href="#">Top Performing SIP Funds</a>
+            <a href="#">SIP Return Calculator</a>
+            <a href="#">Mutual Fund Lumpsum Returns</a>
+          </div>
+        </li>
+        <li>
+          <a href="#">Calculators ▾</a>
+          <div class="dropdown">
+            <a href="#">Become A Crorepati</a>
+            <a href="#">SIP Return Calculator</a>
+            <a href="#">Retirement Planning Calculator</a>
+            <a href="#">Mutual Fund SIP Calculator Step Up</a>
+            <a href="#">Lumpsum Target Calculator</a>
+            <a href="#">Target Amount SIP Calculator</a>
+          </div>
+        </li>
+        <li><a href="#">News</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><button class="login-btn">Login</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- SLIDER -->
+  <section class="slider">
+    <div class="slide active" style="background-image:url('img3.png');">
+      <h1>Do you have enough <span>Life Insurance</span> Cover?</h1>
+      <p>You should have Life Cover of around 20 times of your Annual Income so that your Family is Totally Protected in your absence.</p>
+      <button>Read More</button>
+    </div>
+
+    <div class="slide" style="background-image:url('img2.png');">
+      <h1>We help you select the <span>Best Mutual Fund</span> Schemes.</h1>
+      <p>Mutual Funds have Investment Solution from 1 day to many years. We suggest you schemes based on your Investment Needs and Goals.</p>
+      <button>Read More</button>
+    </div>
+
+    <div class="slide" style="background-image:url('img1.png');">
+      <h1>Investment Planning is core of <span>reaching your Goals</span></h1>
+      <p>We help you plan your existing and new investments in such a way that you are able to reach your Financial Goals.</p>
+      <button>Read More</button>
+    </div>
+
+    <div class="arrow left" onclick="prevSlide()">&#10094;</div>
+    <div class="arrow right" onclick="nextSlide()">&#10095;</div>
+  </section>
+
+  <!-- WELCOME SECTION -->
+  <section class="welcome">
+    <div class="welcome-content">
+      <div class="text">
+        <h2>Welcome To <span>Great FinSpire Pvt Ltd</span></h2>
+        <p>Expert in financial planning, analysis, and educating clients | Meticulous in strategic
+          planning and consulting | 20 years of experience in the Financial Sector.</p>
+        <p><b>Great FinSpire Pvt Ltd</b> is an AMFI Registered Mutual Fund Distributor offering
+          personalized financial solutions to help clients achieve their investment and life goals.</p>
+        <button>About us</button>
+      </div>
+      <div class="image">
+        <img src="GFS Logo.png" alt="Great FinSpire Pvt Ltd Logo">
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR SERVICES SECTION -->
+  <section class="services">
+    <h2>OUR <span>SERVICES</span></h2>
+
+    <div class="service-boxes">
+      <div class="service">
+        <img src="img4.png" alt="Mutual Funds">
+        <h3>MUTUAL FUNDS</h3>
+        <p>Mutual funds are financial instruments which invest in a portfolio of securities. These securities provide diversification and expert management for investors.</p>
+        <button>Read more</button>
+      </div>
+
+      <div class="service">
+        <img src="img5.png" alt="AIF">
+        <h3>AIF</h3>
+        <p>Alternative Investment Funds (AIFs) are privately pooled investment funds that collect funds from investors to invest in assets based on a defined investment policy.</p>
+        <button>Read more</button>
+      </div>
+
+      <div class="service">
+        <img src="img6.png" alt="Health Insurance">
+        <h3>HEALTH INSURANCE</h3>
+        <p>Health insurance protects you and your family from unexpected medical expenses and ensures financial stability during emergencies.</p>
+        <button>Read more</button>
+      </div>
+
+      <div class="service">
+        <img src="img1.png" alt="Life Insurance">
+        <h3>LIFE INSURANCE</h3>
+        <p>Life insurance ensures that your family and loved ones are financially protected in your absence and helps secure their future goals.</p>
+        <button>Read more</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Hamburger menu toggle
+    function toggleMenu() {
+      document.querySelector('nav ul').classList.toggle('active');
+    }
+
+    // Slider functionality
+    let slides = document.querySelectorAll('.slide');
+    let index = 0;
+
+    function showSlide(i) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[i].classList.add('active');
+    }
+
+    function nextSlide() {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    }
+
+    function prevSlide() {
+      index = (index - 1 + slides.length) % slides.length;
+      showSlide(index);
+    }
+
+    setInterval(nextSlide, 4000);
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SIP Calculator — Great FinSpire</title>
+
+  <!-- Chart.js v4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --accent: #22b573;
+      --dark: #003246;
+      --muted: #7b8b95;
+      --surface: #f6f9f8;
+      --card: #ffffff;
+      --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: Inter, system-ui, -apple-system, "Poppins", Arial, sans-serif;
+      margin:0;
+      background: #fff;
+      color:#172129;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    header.site-header{
+      background:#fff;
+      padding:18px 4%;
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      position:sticky;
+      top:0;
+      z-index:40;
+    }
+    header .brand { display:flex; align-items:center; gap:12px; }
+    header .brand img{ height:48px; width:auto; }
+    header .brand h1{ font-size:18px; margin:0; color:var(--dark); letter-spacing:0.2px; }
+    header nav{ font-size:14px; color:var(--muted); }
+
+    main.container{
+      max-width:1200px;
+      margin:32px auto;
+      padding:0 20px 80px;
+    }
+
+    .calc-card{
+      background: linear-gradient(180deg, rgba(34,181,115,0.03), rgba(34,181,115,0.02));
+      border-radius:10px;
+      padding:22px;
+      box-shadow: var(--shadow);
+      margin-bottom:20px;
+      overflow:hidden;
+    }
+
+    .calc-row{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .field{
+      flex:1 1 220px;
+      min-width:180px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin:8px 0;
+    }
+
+    .field label{ font-size:14px; color:var(--dark); }
+    .field input[type="number"], .field select{
+      border:0;
+      padding:12px 14px;
+      border-bottom:2px solid rgba(0,0,0,0.12);
+      border-radius:6px;
+      background: #eaf7f0;
+      font-size:20px;
+      color:var(--dark);
+    }
+    .field input[type="range"]{ width:100%; }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .muted-note{ color:var(--muted); font-size:14px; margin-top:8px; }
+
+    /* chart container */
+    .chart-wrap{
+      background:var(--card);
+      border-radius:8px;
+      margin-top:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    canvas#sipChart{ width:100% !important; height:420px !important; }
+
+    /* floating info card when clicking points */
+    .popup {
+      position: fixed;
+      pointer-events: none;
+      background: #fff;
+      padding:10px 12px;
+      border-radius:8px;
+      box-shadow:0 8px 18px rgba(10,20,30,0.12);
+      border-left:4px solid var(--accent);
+      transform:translate(-50%,-120%);
+      min-width:180px;
+      z-index:80;
+      display:none;
+      font-size:14px;
+      color:#1b2b34;
+    }
+    .popup b{ display:block; margin-bottom:6px; font-size:15px; color:var(--dark) }
+
+    /* summary boxes under chart */
+    .summary{
+      display:flex;
+      gap:12px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .stat{
+      background:linear-gradient(180deg,#ffffff,#f7fbfb);
+      padding:10px 14px;
+      border-radius:8px;
+      min-width:160px;
+      box-shadow:0 6px 16px rgba(10,20,30,0.04);
+    }
+    .stat small{ color:var(--muted); display:block }
+    .stat strong{ font-size:18px; color:var(--dark) }
+
+    /* responsive */
+    @media (max-width:880px){
+      .chart-wrap{ padding:12px }
+      canvas#sipChart{ height:360px !important; }
+      .field input[type="number"]{ font-size:18px }
+    }
+    
+  </style>
+</head>
+<body>
+
+  <header class="site-header" aria-label="Top navigation">
+    <div class="brand">
+      <img src="GFS Logo.png" alt="Great FinSpire logo" />
+      <div>
+        <h1>Great FinSpire Pvt Ltd</h1>
+        <div style="font-size:12px;color:var(--muted)">AMFI Registered Mutual Fund Distributor</div>
+      </div>
+    </div>
+    <nav aria-hidden="true">SIP Calculator</nav>
+  </header>
+
+  <main class="container" id="main">
+    <section aria-labelledby="sip-title">
+      <h2 id="sip-title" style="text-align:center; font-size:30px; margin:6px 0 16px; letter-spacing:0.6px;">
+        SIP <span style="color:var(--accent)">CALCULATOR</span>
+      </h2>
+
+      <!-- input card -->
+      <div class="calc-card" role="region" aria-label="Calculator inputs">
+        <div class="calc-row">
+
+          <div class="field">
+            <label for="monthly">Monthly Savings (Rs.)</label>
+            <input id="monthly" type="number" inputmode="numeric" min="0" step="100" value="25000" />
+            <div class="muted-note">Enter the monthly SIP amount.</div>
+          </div>
+
+          <div class="field">
+            <label for="period">Investment period (Years)</label>
+            <select id="period" aria-label="Investment period in years">
+              <!-- generate options by script? but static is fine -->
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>7</option><option>10</option><option selected>20</option>
+              <option>25</option><option>30</option>
+            </select>
+            <div class="muted-note">How long will you invest?</div>
+          </div>
+
+          <div class="field">
+            <label for="annual">Annual Return (%)</label>
+            <input id="annual" type="number" min="0" max="50" step="0.1" value="12" />
+            <div class="muted-note">Expected yearly return (approx.).</div>
+          </div>
+
+          <div class="field" style="flex:0 0 180px;">
+            <label>&nbsp;</label>
+            <div class="controls" style="justify-content:flex-end;">
+              <button id="resetBtn" style="background:#e9f7ef;border:1px solid rgba(34,181,115,0.15); padding:10px 14px; border-radius:8px; cursor:pointer">
+                Reset
+              </button>
+              <button id="calcNow" style="background:var(--accent); color:#fff; padding:10px 14px; border-radius:8px; border:0; cursor:pointer;">
+                Calculate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- chart -->
+      <div class="chart-wrap" role="region" aria-label="SIP chart and results">
+        <canvas id="sipChart" aria-label="Investment growth chart" role="img"></canvas>
+
+        <div class="summary" id="summary">
+          <div class="stat">
+            <small>Total SIP Value</small>
+            <strong id="totalVal">-</strong>
+          </div>
+          <div class="stat">
+            <small>Total Invested (Principal)</small>
+            <strong id="investedVal">-</strong>
+          </div>
+          <div class="stat">
+            <small>Estimated CAGR (approx.)</small>
+            <strong id="cagrVal">-</strong>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- floating popup for clicked point -->
+  <div id="popup" class="popup" role="dialog" aria-hidden="true"></div>
+
+  <script>
+    // debounce util
+    function debounce(fn, wait=250){
+      let t;
+      return (...args)=>{
+        clearTimeout(t);
+        t = setTimeout(()=>fn(...args), wait);
+      };
+    }
+
+    // format number in Indian style / comma separated
+    function formatINR(n){
+      if(isNaN(n)) return '-';
+      const sign = n < 0 ? '-' : '';
+      n = Math.abs(Math.round(n));
+      const s = n.toString();
+      if(s.length <= 3) return sign + s;
+      const last3 = s.slice(-3);
+      const other = s.slice(0, -3);
+      return sign + other.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + ',' + last3;
+    }
+
+    // core SIP calculation - returns yearly snapshots
+    function calculateSIP({monthly, annualRate, years}){
+      const monthlyRate = annualRate / 12 / 100;
+      const months = years * 12;
+
+      let value = 0;
+      const yearly = []; // will store {year, invested, value}
+      let invested = 0;
+      for(let m=1; m<=months; m++){
+        // monthly contribution at beginning of month (common practice)
+        invested += monthly;
+        value = value * (1 + monthlyRate) + monthly;
+        // end of each month; if month ends a year, push a snapshot
+        if(m % 12 === 0){
+          const yearNumber = m/12;
+          yearly.push({
+            year: new Date().getFullYear() + yearNumber, // convert to calendar year (optional)
+            invested: Math.round(invested),
+            value: Math.round(value)
+          });
+        }
+      }
+      return yearly;
+    }
+
+    // compute simple CAGR approximation from invested and final value over years
+    function computeCAGR(start, end, years){
+      if(start <= 0 || years <= 0) return 0;
+      return Math.pow(end/start, 1/years) - 1;
+    }
+
+    // initialize Chart.js
+    const ctx = document.getElementById('sipChart').getContext('2d');
+    const gradientBlue = ctx.createLinearGradient(0,0,0,400);
+    gradientBlue.addColorStop(0,'rgba(3,132,255,0.22)');
+    gradientBlue.addColorStop(1,'rgba(3,132,255,0.06)');
+
+    const gradientGreen = ctx.createLinearGradient(0,0,0,400);
+    gradientGreen.addColorStop(0,'rgba(34,181,115,0.12)');
+    gradientGreen.addColorStop(1,'rgba(34,181,115,0.03)');
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [], // years
+        datasets: [
+          {
+            label: 'Total SIP Value',
+            data: [],
+            borderColor: '#057bff',
+            backgroundColor: gradientBlue,
+            fill: true,
+            tension: 0.32,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: '#057bff',
+            pointBorderWidth: 0
+          },
+          {
+            label: 'SIP Investment',
+            data: [],
+            borderColor: '#22b573',
+            backgroundColor: gradientGreen,
+            fill: true,
+            tension: 0.32,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: '#22b573',
+            pointBorderWidth: 0
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        animation: { duration: 500, easing: 'easeOutCubic' },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#546a73', font: {size:13} }
+          },
+          y: {
+            grid: { color: 'rgba(0,0,0,0.06)', borderDash: [6], drawBorder:false },
+            ticks: {
+              callback: function(val){ return formatINR(val); },
+              color: '#546a73',
+              font: {size:12}
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              title: ctx => 'Year: ' + ctx[0].label,
+              label: function(context){
+                const s = context.dataset.label + ': ' + formatINR(context.parsed.y);
+                return s;
+              }
+            }
+          },
+          legend: { display: false }
+        },
+        interaction: {
+          // better hover handling
+          mode: 'nearest',
+          intersect: false
+        },
+        onClick: (evt, activeElements) => {
+          // We'll handle click in separate handler below using getElementsAtEventForMode
+        }
+      }
+    });
+
+    // DOM references
+    const monthlyEl = document.getElementById('monthly');
+    const periodEl = document.getElementById('period');
+    const annualEl = document.getElementById('annual');
+    const calcBtn = document.getElementById('calcNow');
+    const resetBtn = document.getElementById('resetBtn');
+    const totalValEl = document.getElementById('totalVal');
+    const investedValEl = document.getElementById('investedVal');
+    const cagrValEl = document.getElementById('cagrVal');
+    const popup = document.getElementById('popup');
+
+    // central update function
+    function update() {
+      const monthly = Math.max(0, Number(monthlyEl.value) || 0);
+      const years = Math.max(1, Number(periodEl.value) || 1);
+      const annual = Math.max(0, Number(annualEl.value) || 0);
+
+      const timeline = calculateSIP({ monthly, annualRate: annual, years });
+
+      // labels and data
+      const labels = timeline.map(t => String(t.year));
+      const totalData = timeline.map(t => t.value);
+      const investedData = timeline.map(t => t.invested);
+
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = totalData;
+      chart.data.datasets[1].data = investedData;
+      chart.update();
+
+      // summary: final value, invested, cagr
+      const final = timeline.length ? timeline[timeline.length-1].value : 0;
+      const invested = timeline.length ? timeline[timeline.length-1].invested : 0;
+      totalValEl.textContent = '₹ ' + formatINR(final);
+      investedValEl.textContent = '₹ ' + formatINR(invested);
+
+      const cagr = (invested > 0) ? computeCAGR(invested, final, years) : 0;
+      cagrValEl.textContent = isFinite(cagr) ? ( (cagr*100).toFixed(2) + ' %' ) : '-';
+
+      // hide popup when data updates
+      popup.style.display = 'none';
+      popup.setAttribute('aria-hidden','true');
+    }
+
+    // faster responsive updates with debounce when typing
+    const fastUpdate = debounce(update, 250);
+
+    monthlyEl.addEventListener('input', fastUpdate);
+    annualEl.addEventListener('input', fastUpdate);
+    periodEl.addEventListener('change', update);
+
+    calcBtn.addEventListener('click', update);
+    resetBtn.addEventListener('click', ()=>{
+      monthlyEl.value = 25000; periodEl.value = 20; annualEl.value = 12;
+      update();
+    });
+
+    // initial draw
+    update();
+
+    // click listener to show the info card near clicked point
+    document.getElementById('sipChart').addEventListener('click', function(evt){
+      // get nearest element at click
+      const points = chart.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+
+      if(!points.length){
+        // if nothing clicked, hide popup
+        popup.style.display = 'none';
+        popup.setAttribute('aria-hidden','true');
+        return;
+      }
+
+      const p = points[0];
+      // dataset index 0 = total; dataset index 1 = invested (we want both values for the same x)
+      const idx = p.index;
+      const label = chart.data.labels[idx];
+      const total = chart.data.datasets[0].data[idx];
+      const invested = chart.data.datasets[1].data[idx];
+
+      // position popup near mouse
+      const bounds = evt.target.getBoundingClientRect();
+      const left = evt.clientX;
+      const top = evt.clientY;
+
+      popup.style.left = (left) + 'px';
+      popup.style.top = (top) + 'px';
+      popup.style.display = 'block';
+      popup.setAttribute('aria-hidden','false');
+
+      popup.innerHTML = `
+        <b>Year ${label}</b>
+        <div style="display:flex;justify-content:space-between;gap:8px;">
+          <div style="flex:1"><small style="color:var(--muted)">Total SIP Value</small><div style="color:#057bff;font-weight:600">₹ ${formatINR(total)}</div></div>
+          <div style="flex:1"><small style="color:var(--muted)">SIP Investment</small><div style="color:#22b573;font-weight:600">₹ ${formatINR(invested)}</div></div>
+        </div>
+      `;
+    });
+
+    // hide popup on outside click or scroll
+    document.addEventListener('click', function(e){
+      const chartEl = document.getElementById('sipChart');
+      if(!chartEl.contains(e.target) && !popup.contains(e.target)){
+        popup.style.display = 'none';
+        popup.setAttribute('aria-hidden','true');
+      }
+    }, true);
+
+    window.addEventListener('scroll', ()=>{ popup.style.display='none'; popup.setAttribute('aria-hidden','true'); });
+    window.addEventListener('resize', ()=>{ chart.resize(); popup.style.display='none'; popup.setAttribute('aria-hidden','true'); });
+
+  </script>
+  <section class="latest-blog">
+  <div class="title">
+    <h2>LATEST <span>BLOG</span></h2>
+  </div>
+
+  <div class="blog-cards">
+
+    <div class="blog-card">
+      <img src="img7.png" alt="Blog 1">
+      <div class="blog-content">
+        <h3>PLANTING DREAMS EARLY : THIS CHILDREN'S DAY</h3>
+        <p>
+          Every November, as we celebrate Children's Day, we honour the innocence,
+          joy, and aspirations of young minds.
+        </p>
+        <a href="#">View Details</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="img8.png" alt="Blog 2">
+      <div class="blog-content">
+        <h3>SIP OR LUMPSUM: WHICH IS A BETTER OPTION</h3>
+        <p>
+          SIP involves investing a fixed amount periodically, making it accessible
+          and disciplined.
+        </p>
+        <a href="#">View Details</a>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <img src="img9.png" alt="Blog 3">
+      <div class="blog-content">
+        <h3>IMPORTANCE OF HAVING MID CAP FUNDS</h3>
+        <p>
+          Midcap funds have always been popular with retail investors due to growth
+          potential.
+        </p>
+        <a href="#">View Details</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section class="partners">
+  <h2>OUR <span>PARTNERS</span></h2>
+  <div class="underline"></div>
+
+  <div class="partner-grid">
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/HSBC_logo_%282018%29.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Invesco_logo.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/ITI_Mutual_Fund_Logo.png"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JM_Financial_logo.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Kotak_Mahindra_Bank_logo.svg"></div>
+
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/LIC_logo.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Mahindra_Manulife_Mutual_Fund_logo.png"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Mirae_Asset_logo.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Motilal_Oswal_Group_logo.svg"></div>
+    <div class="partner-card"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Nippon_India_Mutual_Fund_logo.png"></div>
+  </div>
+</section>
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- Address 1 -->
+    <div class="footer-col">
+      <h4>Address 1</h4>
+      <p>
+        K14, Dhanalakshmi Nagar,<br>
+        Kodikulam K Pudur,<br>
+        Pudur Bazaar,<br>
+        Madurai North,<br>
+        Tamil Nadu – 625007
+      </p>
+
+      <p>
+        📞 <a href="tel:9942435511">+91 99424 35511</a>
+        <a href="https://wa.me/919942435511" target="_blank" title="Chat on WhatsApp"> 🟢</a>
+      </p>
+
+      <p>
+        ✉ <a href="mailto:greatfinancialservices@gmail.com">
+          greatfinancialservices@gmail.com
+        </a>
+      </p>
+    </div>
+
+    <!-- Address 2 -->
+    <div class="footer-col">
+      <h4>Address 2</h4>
+      <p>Coming soon…</p>
+
+      <p>
+        📞 <a href="tel:8667596769">+91 86675 96769</a>
+        <a href="https://wa.me/918667596769" target="_blank"> 🟢</a>
+      </p>
+
+      <p>
+        ✉ <a href="mailto:greatfinancialservices@gmail.com">
+          greatfinancialservices@gmail.com
+        </a>
+      </p>
+    </div>
+
+    <!-- Useful Links -->
+    <div class="footer-col">
+      <h4>Useful Links</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Service</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Commission Disclosures</a></li>
+      </ul>
+    </div>
+
+    <!-- Our Offerings -->
+    <div class="footer-col">
+      <h4>Our Offerings</h4>
+      <ul>
+        <li><a href="#">Calculators</a></li>
+        <li><a href="#">Blogs</a></li>
+        <li><a href="#">News</a></li>
+      </ul>
+    </div>
+
+    <!-- FAQs -->
+    <div class="footer-col">
+      <h4>FAQs</h4>
+      <ul>
+        <li><a href="#">Mutual Fund FAQs</a></li>
+        <li><a href="#">NRI Corner FAQs</a></li>
+        <li><a href="#">Financial Planning</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- App Buttons -->
+  <div class="footer-apps">
+    <a href="https://play.google.com/store/apps/details?id=YOUR_APP_ID" target="_blank">
+      <img src="google-play.png" alt="Google Play">
+    </a>
+
+    <a href="https://apps.apple.com/in/app/YOUR_APP_NAME/idXXXXXXXXX" target="_blank">
+      <img src="app-store.png" alt="App Store">
+    </a>
+  </div>
+
+  <!-- AMFI Section -->
+  <div class="footer-amfi">
+    <img src="amfi-logo.png" alt="AMFI">
+    <p>
+      AMFI (Association of Mutual Funds in India) Certified Mutual Fund Distributor.
+      ARN-156381 | Valid
+    </p>
+    <p>
+      Mutual Fund investments are subject to market risks. Read all scheme related
+      documents carefully before investing.
+    </p>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div>© 2024 Great Financial Services. All Rights Reserved</div>
+    <div>
+      Designed & Developed by <a href="#">Dhansha Brindha G</a>
+    </div>
+  </div>
+
+  <!-- Scroll To Top -->
+  <div class="scroll-top"
+       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    ▲
+  </div>
+
+</footer>
+
+</body>
+</html>
